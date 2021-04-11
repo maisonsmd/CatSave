@@ -1,0 +1,47 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>util.js</file>
+        <file>FilterPage.qml</file>
+        <file>SummaryPage.qml</file>
+        <file>SummaryRow.qml</file>
+        <file>MonthSelector.qml</file>
+        <file>icons/20x20/back.png</file>
+        <file>icons/20x20/close.png</file>
+        <file>icons/20x20/drawer.png</file>
+        <file>icons/20x20/menu.png</file>
+        <file>icons/20x20/pencil.png</file>
+        <file>icons/20x20/plus.png</file>
+        <file>icons/20x20/tick.png</file>
+        <file>icons/20x20/trash.png</file>
+        <file>icons/20x20@2/back.png</file>
+        <file>icons/20x20@2/close.png</file>
+        <file>icons/20x20@2/drawer.png</file>
+        <file>icons/20x20@2/menu.png</file>
+        <file>icons/20x20@2/pencil.png</file>
+        <file>icons/20x20@2/plus.png</file>
+        <file>icons/20x20@2/tick.png</file>
+        <file>icons/20x20@2/trash.png</file>
+        <file>icons/20x20@3/back.png</file>
+        <file>icons/20x20@3/close.png</file>
+        <file>icons/20x20@3/drawer.png</file>
+        <file>icons/20x20@3/menu.png</file>
+        <file>icons/20x20@3/pencil.png</file>
+        <file>icons/20x20@3/plus.png</file>
+        <file>icons/20x20@3/tick.png</file>
+        <file>icons/20x20@3/trash.png</file>
+        <file>icons/20x20@4/back.png</file>
+        <file>icons/20x20@4/close.png</file>
+        <file>icons/20x20@4/drawer.png</file>
+        <file>icons/20x20@4/menu.png</file>
+        <file>icons/20x20@4/pencil.png</file>
+        <file>icons/20x20@4/plus.png</file>
+        <file>icons/20x20@4/tick.png</file>
+        <file>icons/20x20@4/trash.png</file>
+        <file>icons/app_icon.png</file>
+        <file>icons/index.theme</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>EditPanel.qml</file>
+        <file>DatePicker.qml</file>
+    </qresource>
+</RCC>
