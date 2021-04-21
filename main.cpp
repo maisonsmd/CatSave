@@ -22,13 +22,16 @@ int main(int argc, char *argv[])
     MonthlyList monthlyList;
     auto * expenseProxy = new TypeFilterProxyModel(nullptr, Enums::RecordType::EXPENSE);
     auto * incomeProxy = new TypeFilterProxyModel(nullptr, Enums::RecordType::INCOME);
+    auto * debtProxy = new TypeFilterProxyModel(nullptr, Enums::RecordType::DEBT);
 
     expenseProxy->setSourceModel(&monthlyList);
     incomeProxy->setSourceModel(&monthlyList);
+    debtProxy->setSourceModel(&monthlyList);
 
     engine.rootContext()->setContextProperty("monthlyList", &monthlyList);
     engine.rootContext()->setContextProperty("expenseProxy", expenseProxy);
     engine.rootContext()->setContextProperty("incomeProxy", incomeProxy);
+    engine.rootContext()->setContextProperty("debtProxy", debtProxy);
 
     qmlRegisterType<Enums>("CatSave", 1, 0, "Enums");
 

@@ -1,7 +1,7 @@
 #include "jsondb.h"
 #include <QVariantList>
-#include <QTimer>
 #include <QDir>
+#include <QUrl>
 #include <QFileDialog>
 #include <QQmlFile>
 #include <algorithm>
@@ -22,6 +22,7 @@ void JsonDb::setFilePath(const QString & _path)
     if(m_file.isOpen())
         m_file.close();
     m_records.clear();
+    m_initAmount = 0;
 
     m_file.setFileName(_path);
     LOGI(QString("file name: %1").arg(m_file.fileName()));
@@ -33,11 +34,7 @@ void JsonDb::setFilePath(const QString & _path)
 
 void JsonDb::save()
 {
-    LOGI("save file");
-
-    if (!m_file.isOpen()) {
-        // LOGI("file is not opened, maybe it doesn't exist, now open!");
-    }
+    LOGI();
 
     auto toJson = [](const QList<Record> & list)->QJsonArray{
         QJsonArray array;
@@ -46,7 +43,10 @@ void JsonDb::save()
         return array;
     };
 
-    QJsonDocument doc = QJsonDocument(toJson(m_records));
+    QJsonObject obj;
+    obj.insert("initAmount", m_initAmount);
+    obj.insert("items", toJson(m_records));
+    QJsonDocument doc(obj);
 
     if(!openFile())
         return;
@@ -58,7 +58,6 @@ void JsonDb::save()
 
 bool JsonDb::remove(const QString & _id)
 {
-
     for (int i = 0; i < m_records.size(); ++i)
         if(m_records[i].id == _id) {
             return remove(i); // then save
@@ -147,6 +146,19 @@ int JsonDb::indexOf(const QString &_id)
     return -1;
 }
 
+qint64 JsonDb::getInitAmount()
+{
+    return m_initAmount;
+}
+
+bool JsonDb::setInitAmount(const qint64 &_val)
+{
+    LOGI();
+    m_initAmount = _val;
+    save();
+    return true;
+}
+
 void JsonDb::sort()
 {
     std::sort(m_records.begin(), m_records.end(), [](const Record & l, const Record & r) {
@@ -154,7 +166,6 @@ void JsonDb::sort()
     });
 }
 
-#include <QUrl>
 bool JsonDb::exportToFile()
 {
     LOGI();
@@ -259,40 +270,14 @@ void JsonDb::parseFile()
 
     if (error.error != QJsonParseError::ParseError::NoError) {
         LOGI(QString("file is corrupted or empty, msg: %1").arg(error.errorString()));
-        m_file.close();
-        {
-            QFile::remove(m_file.fileName());
-            openFile();
-
-            if (m_file.size() == 0)
-                return;
-
-            auto json = m_file.readAll();
-            QJsonParseError error;
-            QJsonDocument doc = QJsonDocument::fromJson(json, &error);
-            LOGI(QString("File size: %1").arg(m_file.size()));
-        }
-
-       /* m_file.setFileName("other_" + m_file.fileName());
-
-        LOGI("create another file with empty json");
-        m_file.open(QIODevice::ReadWrite | QIODevice::Text);
-        m_file.write("{}");
-        m_file.close();
-        m_file.open(QIODevice::ReadWrite | QIODevice::Text);
-        json = m_file.readAll();
-
-        doc = QJsonDocument::fromJson(json, &error);
-
-        if (error.error != QJsonParseError::ParseError::NoError) {
-            LOGI(QString("file is corrupted or empty, or no permission to read/write, msg: %1")
-                 .arg(error.errorString()));
-        }*/
+        return;
     }
 
     //    LOGI(QString("json: %1").arg(doc.toJson().toStdString().c_str()));
 
-    for (const auto & v : doc.array()) {
+    auto obj = doc.object();
+    m_initAmount = obj.value("initAmount").toInt();
+    for (const auto & v : obj.value("items").toArray()) {
         auto data = v.toVariant().toMap();
         Record r;
         r.id = data.value("id", "").toString();

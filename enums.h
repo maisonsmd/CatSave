@@ -10,7 +10,8 @@ class Enums : public QObject {
 public:
     enum class RecordType {
         EXPENSE,
-        INCOME
+        INCOME,
+        DEBT
     };
 
     Q_ENUM(RecordType);

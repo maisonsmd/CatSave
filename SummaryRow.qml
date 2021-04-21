@@ -7,9 +7,12 @@ Item {
     id: root
     required property string title
     required property int amount
+    property string sign: " "
+    property int padding: 20
 
     implicitHeight: 30
     implicitWidth: parent.width
+
 
     Item {
         anchors {
@@ -17,15 +20,28 @@ Item {
             left: parent.left
             right: parent.right
 
-            leftMargin: 20
-            rightMargin: 20
+            leftMargin: root.padding
+            rightMargin: root.padding
         }
 
-        height: 50
+        height: parent.height
+
+        Item {
+            id: sign
+            height: parent.height
+            width: 10
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            Label {
+                anchors.centerIn: parent
+                padding: 0
+                text: root.sign
+            }
+        }
 
         Item {
             height: parent.height
-            anchors.left: parent.left
+            anchors.left: sign.right
             anchors.leftMargin: 10
             anchors.right: amount.left
 
