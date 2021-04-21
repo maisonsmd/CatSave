@@ -50,6 +50,8 @@ public:
     bool set(const int & _index, const Record & _record);
     int indexOf(const QString & _id);
 
+    qint64 getInitAmount();
+    bool setInitAmount(const qint64 & _val);
     bool exportToFile();
     bool importFromFile();
 
@@ -63,6 +65,7 @@ private:
 
     static JsonDb * m_instance;
     QFile m_file;
+    qint64 m_initAmount;
     QList<Record> m_records;
 };
 

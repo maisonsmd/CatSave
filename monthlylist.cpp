@@ -64,6 +64,11 @@ int MonthlyList::daysInMonth() const
     return QCalendar().daysInMonth(currentMonth(), currentYear());
 }
 
+qint64 MonthlyList::initAmount() const
+{
+    return m_db->getInitAmount();
+}
+
 void MonthlyList::setCurrentMonth(qint16 _month)
 {
     if(_month != m_currentMonth){
@@ -155,10 +160,19 @@ void MonthlyList::importFromFile()
     if (m_db->importFromFile()) {
         updateFilePath();
         emit showNotification("Message", "Import succeeded!");
+        emit initAmountChanged();
         return;
     }
 
     emit showNotification("Error", "Import failed!");
+}
+
+void MonthlyList::setInitAmount(const qint64 & _val)
+{
+    if (_val != m_db->getInitAmount()) {
+        m_db->setInitAmount(_val);
+        emit initAmountChanged();
+    }
 }
 
 bool MonthlyList::getRecord(const QString _id, Record &_record) const
@@ -306,4 +320,5 @@ void MonthlyList::updateFilePath()
     endResetModel();
 
     emit totalAmountChanged();
+    emit initAmountChanged();
 }

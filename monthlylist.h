@@ -12,6 +12,7 @@ class MonthlyList : public QAbstractListModel
     Q_PROPERTY(qint16 currentYear READ currentYear WRITE setCurrentYear NOTIFY currentYearChanged)
     Q_PROPERTY(qint32 rowCount READ rowCount NOTIFY rowCountChanged)
     Q_PROPERTY(int daysInMonth READ daysInMonth NOTIFY daysInMonthChanged)
+    Q_PROPERTY(qint64 initAmount READ initAmount WRITE setInitAmount NOTIFY initAmountChanged)
 
 public:
     enum Roles {
@@ -29,6 +30,7 @@ public:
     qint16 currentMonth() const;
     qint16 currentYear() const;
     int daysInMonth() const;
+    qint64 initAmount() const;
 
     Q_INVOKABLE void setCurrentMonth(qint16 _month);
     Q_INVOKABLE void setCurrentYear(qint16 _year);
@@ -39,6 +41,7 @@ public:
 
     Q_INVOKABLE void exportToFile();
     Q_INVOKABLE void importFromFile();
+    Q_INVOKABLE void setInitAmount(const qint64 & _val);
 
     bool getRecord(const QString _id, Record & _record) const;
     bool getRecord(const int _index, Record & _record) const;
@@ -59,6 +62,7 @@ signals:
     void rowCountChanged();
     void daysInMonthChanged();
     void showNotification(QString _title, QString _message);
+    void initAmountChanged();
 
 protected:
     int getIndexToAdd(const Record & _record) const;
